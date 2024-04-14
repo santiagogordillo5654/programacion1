@@ -6,6 +6,7 @@ Descripciín basisca de su Proyecto de POO ...
 
 - Autor 1 Sebastian Roman Sanchez
 - Autor 2 Santiago gordillo Molina
+- Autor 3 Yefry Fajardo 
 
 # Herramientas
 
