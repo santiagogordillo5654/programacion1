@@ -25,12 +25,22 @@ public class Curso {
      * 
      * @param nombre Nombre del curso
      */
+    
+
     public Curso(String nombre) {
-        assert nombre != null : "El nombre no puede ser nulo";
-        this.nombre = nombre;
-        estudiantes = new LinkedList<>();
-        notasParciales = new LinkedList<>();
+    while (nombre == null) {
+        System.out.println("El nombre no puede ser nulo. Introduce un nombre válido:");
+        // Aquí puedes usar alguna entrada de usuario para asignar un valor a 'nombre'
     }
+    this.nombre = nombre;
+    estudiantes = new LinkedList<>();
+    notasParciales = new LinkedList<>();
+}
+
+
+
+
+
 
     /**
      * Método para obtener el nombre del curso --> Modificado por : Santiago
@@ -61,11 +71,14 @@ public class Curso {
      *         registrado.
      */
     private boolean validarNumeroIdentificacionExiste(String numeroIdentificacion) {
-
-        Predicate<Estudiante> condicion = estudiante -> estudiante.getNumeroIdentificacion()
-                .equals(numeroIdentificacion);
-        return estudiantes.stream().filter(condicion).findAny().isPresent();
+    for (Estudiante estudiante : estudiantes) {
+        if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+            return true; // Se encontró un estudiante con el número de identificación dado
+        }
     }
+    return false; // No se encontró ningún estudiante con el número de identificación dado
+}
+
 
     /**
      * Método para buscar un estudiante dado el número de indicación
@@ -96,10 +109,12 @@ public class Curso {
      *         orden alfabético
      */
     public Collection<Estudiante> obtenerListadoAlfabetico() {
-        var comparador = Comparator.comparing(Estudiante::getNombres);
-        var estudiantesOrdenados = estudiantes.stream().sorted(comparador).toList();
+    List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
+    Collections.sort(estudiantesOrdenados, Comparator.comparing(Estudiante::getNombres));
         return Collections.unmodifiableCollection(estudiantesOrdenados);
     }
+
+
 
     /**
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Santiago
@@ -167,11 +182,23 @@ public class Curso {
      * Método de apoyo (privado) que determinar el valor de la mayor nota definitiva --> Modificado por : Yefry
      * @return mayor nota definitiva de los estudiantes del curso.
      */
-    private double obtenerMayorNota() {
-        double mayorNota = estudiantes.stream().map(e -> e.getDefinitiva()).max(Double::compare).get();
+    
 
-        return mayorNota;
+    private double obtenerMayorNota() {
+    double mayorNota = Double.MIN_VALUE; // Valor inicial muy pequeño
+
+    for (Estudiante estudiante : estudiantes) {
+        double definitiva = estudiante.getDefinitiva();
+        if (definitiva > mayorNota) {
+            mayorNota = definitiva;
+        }
     }
+
+    return mayorNota;
+}
+
+
+
 
     /**
      * Método para obtener la colección de los estudiantes que perdieron en orden alfabético. --> Modificado por : Santiago
