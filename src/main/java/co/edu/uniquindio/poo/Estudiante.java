@@ -139,12 +139,17 @@ public class Estudiante {
      * @param nombreNotaParcial nombre de la nota parcial que se desea buscar.
      * @return la nota obtenida asociada a la nota parcial
      */
-    public NotaObtenida getNotaObtenida(String nombreNotaParcial) {
-        var posibleNotaObtenida = buscarNotaParcial(nombreNotaParcial);
-        assert posibleNotaObtenida.isPresent();
+    
 
-        return posibleNotaObtenida.get();
+    public NotaObtenida getNotaObtenida(String nombreNotaParcial) {
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            if (notaObtenida.getNombre().equals(nombreNotaParcial)) {
+                return notaObtenida;
+            }
+        }
+        return null; // Retorna null si no se encuentra la nota parcial
     }
+    
 
     /**
      * Método de apoyo (privado) para buscar una posible nota obtenida asociada a, Modificado por --> Sebastian
@@ -183,15 +188,23 @@ public class Estudiante {
      *                          asociada
      * @param notaObtenida      nueva nota obtenida
      */
+    
+
     public void setNotaObtenida(String nombreNotaParcial, double notaObtenida) {
         assert notaObtenida >= 0.0 : "La nota obtenida no puede ser menor a cero";
         assert notaObtenida <= 5.0 : "La nota obtenida no puede ser mayor a cinco";
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre().equals(nombreNotaParcial);
-        var notaObtenidaActual = notasObtenidas.stream().filter(nombreIgual).findAny();
-        assert notaObtenidaActual.isPresent();
-
-        notaObtenidaActual.get().setNotaObtenida(notaObtenida);
+    
+        for (NotaObtenida notaObtenidaActual : notasObtenidas) {
+            if (notaObtenidaActual.getNotaParcial().nombre().equals(nombreNotaParcial)) {
+                notaObtenidaActual.setNotaObtenida(notaObtenida);
+                return;
+            }
+        }
+    
+        // Si no se encontró la nota parcial, se podría lanzar una excepción o manejar de otra forma
+        throw new IllegalArgumentException("No se encontró la nota parcial con nombre: " + nombreNotaParcial);
     }
+    
 
     /**
      * Método para obtener la nota definitiva usando un promedio ponderado suma de, Modificado por --> Sebastian
@@ -225,4 +238,5 @@ public class Estudiante {
             throw new IllegalStateException("Las notas parciales no suman 1.0 (100%)");
         }
     }
+}    
     
