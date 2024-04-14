@@ -21,7 +21,7 @@ public class Curso {
     private final Collection<NotaParcial> notasParciales;
 
     /**
-     * Método constructor de la clase Curso
+     * Método constructor de la clase Curso --> Modificado por : Yefry
      * 
      * @param nombre Nombre del curso
      */
@@ -33,7 +33,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener el nombre del curso
+     * Método para obtener el nombre del curso --> Modificado por : Santiago
      * 
      * @return Nombre del curso
      */
@@ -42,7 +42,7 @@ public class Curso {
     }
 
     /**
-     * Método para agregar a un estudiante al curso
+     * Método para agregar a un estudiante al curso --> Modificado por : Sebastian
      * 
      * @param estudiante Estudiante que se desea agregar
      */
@@ -53,7 +53,7 @@ public class Curso {
     }
 
     /**
-     * Método privado para determinar si ya existe un estudiante registro en el
+     * Método privado para determinar si ya existe un estudiante registro en el --> Modificado por : Yefry
      * mismo número de identificación
      * 
      * @param numeroIdentificacion Número de identificación a buscar
@@ -70,7 +70,7 @@ public class Curso {
     /**
      * Método para buscar un estudiante dado el número de indicación
      * 
-     * @param numeroIdenficacion Número de identificación del estudiante a buscar
+     * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago
      * @return Estudiante con el número de indicación indicado o null
      */
     public Optional<Estudiante> obtenerEstudiante(String numeroIdenficacion) {
@@ -80,7 +80,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
      * 
      * @return colección NO modificable de los estudiantes del curso
      */
@@ -89,7 +89,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Yefry
      * en orden alfabético
      * 
      * @return colección NO modificable de los estudiantes del curso en
@@ -102,7 +102,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Santiago
      * en orden descendente de la edad
      * 
      * @return la colección NO modificable de los estudiantes del curso registrados
@@ -115,7 +115,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
      * que son menores de edad
      * 
      * @return la colección NO modificable de los estudiantes del curso que
@@ -129,7 +129,7 @@ public class Curso {
 
     /**
      * Método para adicionar una nota parcial
-     * TODO: Se puede validar que la suma de los porcentajes no sobrepase en ningún
+     * TODO: Se puede validar que la suma de los porcentajes no sobrepase en ningún --> Modificado por : Yefry
      * momento 1.0 (100%)
      * 
      * @param notaParcial nota parcial que se desea adicionar al curso
@@ -139,7 +139,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener una nota parcial dado el nombre de la nota parcial
+     * Método para obtener una nota parcial dado el nombre de la nota parcial --> Modificado por : Santiago
      * @param nombreNotaParcial nombre de la nota parcial a buscar
      * @return nota parcial encontrada o un excepción de no entrada.
      */
@@ -152,7 +152,7 @@ public class Curso {
     }
 
     /**
-     * Método que obtiene la colección de los estudiantes con mayor nota.
+     * Método que obtiene la colección de los estudiantes con mayor nota. --> Modificado por : Sebastian
      * @return colección de los estudiantes con la mayor nota.
      */
     public Collection<Estudiante> obtenerListadoMayorNota() {
@@ -164,7 +164,7 @@ public class Curso {
     }
 
     /**
-     * Método de apoyo (privado) que determinar el valor de la mayor nota definitiva
+     * Método de apoyo (privado) que determinar el valor de la mayor nota definitiva --> Modificado por : Yefry
      * @return mayor nota definitiva de los estudiantes del curso.
      */
     private double obtenerMayorNota() {
@@ -174,7 +174,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener la colección de los estudiantes que perdieron en orden alfabético.
+     * Método para obtener la colección de los estudiantes que perdieron en orden alfabético. --> Modificado por : Santiago
      * @return colección de los estudiantes que perdieron en orden alfabético.
      */
     public Collection<Estudiante> obtenerListadoAlfabeticoPerdieron() {
@@ -186,7 +186,7 @@ public class Curso {
     }
 
     /**
-     * Método para validar que la suma de los porcentajes de las notas parciales esa 1.0 (100%)
+     * Método para validar que la suma de los porcentajes de las notas parciales esa 1.0 (100%) --> Modificado por : Sebastian
      * @return verdadero si la suma de los porcentajes es 1.0 (100%) o tan cercano como la precisión indicada.
      */
     public boolean validarPorcentajes() {
