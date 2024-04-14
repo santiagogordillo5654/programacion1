@@ -83,7 +83,7 @@ public class Curso {
     /**
      * Método para buscar un estudiante dado el número de indicación
      * 
-     * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago
+     * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago-
      * @return Estudiante con el número de indicación indicado o null
      */
     public Optional<Estudiante> obtenerEstudiante(String numeroIdentificacion) {
