@@ -109,7 +109,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para adicionar una nota obtenida al estudiante
+     * Método para adicionar una nota obtenida al estudiante, Modificado por --> Sebastian
      * 
      * @param notaObtenida nota obtenida por el estudiante
      */
@@ -119,7 +119,7 @@ public class Estudiante {
     }
 
     /**
-     * Método de apoyo (privado) para verificar si existe o no la nota obtenida que
+     * Método de apoyo (privado) para verificar si existe o no la nota obtenida que, Modificado por --> Santiago
      * se desea adicionar
      * 
      * @param notaObtenida nota obtenida que se quiere verificar que NO exista.
@@ -131,7 +131,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para obtener la nota obtenida dado el nombre de la nota parcial
+     * Método para obtener la nota obtenida dado el nombre de la nota parcial, Modificado por --> Yefry
      * 
      * @param nombreNotaParcial nombre de la nota parcial que se desea buscar.
      * @return la nota obtenida asociada a la nota parcial
@@ -144,7 +144,7 @@ public class Estudiante {
     }
 
     /**
-     * Método de apoyo (privado) para buscar una posible nota obtenida asociada a
+     * Método de apoyo (privado) para buscar una posible nota obtenida asociada a, Modificado por --> Sebastian
      * una nota parcial
      * 
      * @param nombreNotaParcial nombre de la nota parcial asociada a la nota
@@ -160,7 +160,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para obtener una colección NO modificable de las notas parciales del
+     * Método para obtener una colección NO modificable de las notas parciales del, Modificado por --> Santiago
      * curso.
      * 
      * @return colección no modificable de las notas parciales del curso
@@ -170,7 +170,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para actualizar la nota que tiene una nota obtenida por el estudiante
+     * Método para actualizar la nota que tiene una nota obtenida por el estudiante, Modificado por --> Yefry
      * 
      * @param nombreNotaParcial nombre de la nota parcial a la que la nota está
      *                          asociada
@@ -187,7 +187,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para obtener la nota definitiva usando un promedio ponderado suma de
+     * Método para obtener la nota definitiva usando un promedio ponderado suma de, Modificado por --> Sebastian
      * todas (nota * porcentaje)
      * 
      * @return nota definitiva
@@ -202,7 +202,7 @@ public class Estudiante {
     }
 
     /**
-     * Método de apoyo (privado) para validar que la suma del porcentaje de las
+     * Método de apoyo (privado) para validar que la suma del porcentaje de las, Modificado por --> Santiago 
      * notas obtenidas sea 1.0 (100%)
      */
     private void validarNotas100Porciento() {
