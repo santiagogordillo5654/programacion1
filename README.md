@@ -4,7 +4,7 @@ Descripciín basisca de su Proyecto de POO ...
 
 # Autores
 
-- Autor 1
+- Autor 1 Sebastian Roman Sanchez
 - Autor 2
 
 # Herramientas
