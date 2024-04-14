@@ -125,11 +125,14 @@ public class Estudiante {
      * @param notaObtenida nota obtenida que se quiere verificar que NO exista.
      */
     private void verificarExistenciaNotaObtenida(NotaObtenida notaObtenida) {
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre()
-                .equals(notaObtenida.getNotaParcial().nombre());
-        assert !notasObtenidas.stream().filter(nombreIgual).findAny().isPresent();
+        String nombreNota = notaObtenida.getNotaParcial().nombre();
+        for (NotaObtenida nota : notasObtenidas) {
+            if (nota.getNotaParcial().nombre().equals(nombreNota)) {
+                throw new IllegalStateException("Ya existe una nota obtenida con el mismo nombre de nota parcial");
+            }
+        }
     }
-
+    
     /**
      * Método para obtener la nota obtenida dado el nombre de la nota parcial, Modificado por --> Yefry
      * 
@@ -166,8 +169,9 @@ public class Estudiante {
      * @return colección no modificable de las notas parciales del curso
      */
     public Collection<NotaObtenida> getNotasObtenidas() {
-        return Collections.unmodifiableCollection(notasObtenidas);
+        return new ArrayList<>(notasObtenidas);
     }
+    
 
     /**
      * Método para actualizar la nota que tiene una nota obtenida por el estudiante, Modificado por --> Yefry
@@ -206,9 +210,13 @@ public class Estudiante {
      * notas obtenidas sea 1.0 (100%)
      */
     private void validarNotas100Porciento() {
-        double pesoNotas = notasObtenidas.stream()
-                .mapToDouble(n -> n.getNotaParcial().porcentaje()).sum();
-        assert (1.0 - pesoNotas) <= App.PRECISION : "Las notas parciales no suman 1.0 (100%)";
+        double sumaPorcentajes = 0.0;
+        for (Nota nota : notasObtenidas) {
+            sumaPorcentajes += nota.getNotaParcial().porcentaje();
+        }
+        double diferencia = Math.abs(1.0 - sumaPorcentajes);
+        if (diferencia > App.PRECISION) {
+            throw new IllegalStateException("Las notas parciales no suman 1.0 (100%)");
+        }
     }
-
-}
+    
