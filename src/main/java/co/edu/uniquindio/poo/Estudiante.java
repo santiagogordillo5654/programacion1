@@ -109,7 +109,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para adicionar una nota obtenida al estudiante
+     * Método para adicionar una nota obtenida al estudiante, Modificado por --> Sebastian
      * 
      * @param notaObtenida nota obtenida por el estudiante
      */
@@ -119,32 +119,40 @@ public class Estudiante {
     }
 
     /**
-     * Método de apoyo (privado) para verificar si existe o no la nota obtenida que
+     * Método de apoyo (privado) para verificar si existe o no la nota obtenida que, Modificado por --> Santiago
      * se desea adicionar
      * 
      * @param notaObtenida nota obtenida que se quiere verificar que NO exista.
      */
     private void verificarExistenciaNotaObtenida(NotaObtenida notaObtenida) {
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre()
-                .equals(notaObtenida.getNotaParcial().nombre());
-        assert !notasObtenidas.stream().filter(nombreIgual).findAny().isPresent();
+        String nombreNota = notaObtenida.getNotaParcial().nombre();
+        for (NotaObtenida nota : notasObtenidas) {
+            if (nota.getNotaParcial().nombre().equals(nombreNota)) {
+                throw new IllegalStateException("Ya existe una nota obtenida con el mismo nombre de nota parcial");
+            }
+        }
     }
-
+    
     /**
-     * Método para obtener la nota obtenida dado el nombre de la nota parcial
+     * Método para obtener la nota obtenida dado el nombre de la nota parcial, Modificado por --> Yefry
      * 
      * @param nombreNotaParcial nombre de la nota parcial que se desea buscar.
      * @return la nota obtenida asociada a la nota parcial
      */
-    public NotaObtenida getNotaObtenida(String nombreNotaParcial) {
-        var posibleNotaObtenida = buscarNotaParcial(nombreNotaParcial);
-        assert posibleNotaObtenida.isPresent();
+    
 
-        return posibleNotaObtenida.get();
+    public NotaObtenida getNotaObtenida(String nombreNotaParcial) {
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            if (notaObtenida.getNombre().equals(nombreNotaParcial)) {
+                return notaObtenida;
+            }
+        }
+        return null; // Retorna null si no se encuentra la nota parcial
     }
+    
 
     /**
-     * Método de apoyo (privado) para buscar una posible nota obtenida asociada a
+     * Método de apoyo (privado) para buscar una posible nota obtenida asociada a, Modificado por --> Sebastian
      * una nota parcial
      * 
      * @param nombreNotaParcial nombre de la nota parcial asociada a la nota
@@ -153,62 +161,82 @@ public class Estudiante {
      *         nombre indicado
      */
     private Optional<NotaObtenida> buscarNotaParcial(String nombreNotaParcial) {
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre().equals(nombreNotaParcial);
-        var posibleNotaObtenida = notasObtenidas.stream().filter(nombreIgual).findAny();
-
-        return posibleNotaObtenida;
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            if (notaObtenida.getNotaParcial().nombre().equals(nombreNotaParcial)) {
+                return Optional.of(notaObtenida);
+            }
+        }
+        return Optional.empty();
     }
+    
 
     /**
-     * Método para obtener una colección NO modificable de las notas parciales del
+     * Método para obtener una colección NO modificable de las notas parciales del, Modificado por --> Santiago
      * curso.
      * 
      * @return colección no modificable de las notas parciales del curso
      */
     public Collection<NotaObtenida> getNotasObtenidas() {
-        return Collections.unmodifiableCollection(notasObtenidas);
+        return new ArrayList<>(notasObtenidas);
     }
+    
 
     /**
-     * Método para actualizar la nota que tiene una nota obtenida por el estudiante
+     * Método para actualizar la nota que tiene una nota obtenida por el estudiante, Modificado por --> Yefry
      * 
      * @param nombreNotaParcial nombre de la nota parcial a la que la nota está
      *                          asociada
      * @param notaObtenida      nueva nota obtenida
      */
+    
+
     public void setNotaObtenida(String nombreNotaParcial, double notaObtenida) {
         assert notaObtenida >= 0.0 : "La nota obtenida no puede ser menor a cero";
         assert notaObtenida <= 5.0 : "La nota obtenida no puede ser mayor a cinco";
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre().equals(nombreNotaParcial);
-        var notaObtenidaActual = notasObtenidas.stream().filter(nombreIgual).findAny();
-        assert notaObtenidaActual.isPresent();
-
-        notaObtenidaActual.get().setNotaObtenida(notaObtenida);
+    
+        for (NotaObtenida notaObtenidaActual : notasObtenidas) {
+            if (notaObtenidaActual.getNotaParcial().nombre().equals(nombreNotaParcial)) {
+                notaObtenidaActual.setNotaObtenida(notaObtenida);
+                return;
+            }
+        }
+    
+        // Si no se encontró la nota parcial, se podría lanzar una excepción o manejar de otra forma
+        throw new IllegalArgumentException("No se encontró la nota parcial con nombre: " + nombreNotaParcial);
     }
+    
 
     /**
-     * Método para obtener la nota definitiva usando un promedio ponderado suma de
+     * Método para obtener la nota definitiva usando un promedio ponderado suma de, Modificado por --> Sebastian
      * todas (nota * porcentaje)
      * 
      * @return nota definitiva
      */
     public double getDefinitiva() {
         validarNotas100Porciento();
-
-        double definitiva = notasObtenidas.stream()
-                .mapToDouble(n -> (n.getNotaObtenida() * n.getNotaParcial().porcentaje())).sum();
-
+    
+        double definitiva = 0.0;
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            definitiva += notaObtenida.getNotaObtenida() * notaObtenida.getNotaParcial().porcentaje();
+        }
+    
         return definitiva;
     }
+    
 
     /**
-     * Método de apoyo (privado) para validar que la suma del porcentaje de las
+     * Método de apoyo (privado) para validar que la suma del porcentaje de las, Modificado por --> Santiago 
      * notas obtenidas sea 1.0 (100%)
      */
     private void validarNotas100Porciento() {
-        double pesoNotas = notasObtenidas.stream()
-                .mapToDouble(n -> n.getNotaParcial().porcentaje()).sum();
-        assert (1.0 - pesoNotas) <= App.PRECISION : "Las notas parciales no suman 1.0 (100%)";
+        double sumaPorcentajes = 0.0;
+        for (Nota nota : notasObtenidas) {
+            sumaPorcentajes += nota.getNotaParcial().porcentaje();
+        }
+        double diferencia = Math.abs(1.0 - sumaPorcentajes);
+        if (diferencia > App.PRECISION) {
+            throw new IllegalStateException("Las notas parciales no suman 1.0 (100%)");
+        }
     }
-
-}
+}    
+    
