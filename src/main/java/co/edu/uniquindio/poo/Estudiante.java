@@ -156,11 +156,14 @@ public class Estudiante {
      *         nombre indicado
      */
     private Optional<NotaObtenida> buscarNotaParcial(String nombreNotaParcial) {
-        Predicate<NotaObtenida> nombreIgual = j -> j.getNotaParcial().nombre().equals(nombreNotaParcial);
-        var posibleNotaObtenida = notasObtenidas.stream().filter(nombreIgual).findAny();
-
-        return posibleNotaObtenida;
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            if (notaObtenida.getNotaParcial().nombre().equals(nombreNotaParcial)) {
+                return Optional.of(notaObtenida);
+            }
+        }
+        return Optional.empty();
     }
+    
 
     /**
      * Método para obtener una colección NO modificable de las notas parciales del, Modificado por --> Santiago
@@ -198,12 +201,15 @@ public class Estudiante {
      */
     public double getDefinitiva() {
         validarNotas100Porciento();
-
-        double definitiva = notasObtenidas.stream()
-                .mapToDouble(n -> (n.getNotaObtenida() * n.getNotaParcial().porcentaje())).sum();
-
+    
+        double definitiva = 0.0;
+        for (NotaObtenida notaObtenida : notasObtenidas) {
+            definitiva += notaObtenida.getNotaObtenida() * notaObtenida.getNotaParcial().porcentaje();
+        }
+    
         return definitiva;
     }
+    
 
     /**
      * Método de apoyo (privado) para validar que la suma del porcentaje de las, Modificado por --> Santiago 
