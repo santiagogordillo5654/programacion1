@@ -40,7 +40,7 @@ public class Curso {
     public String getNombre() {
         return nombre;
     }
-
+    
     /**
      * Método para agregar a un estudiante al curso --> Modificado por : Sebastian
      * 
@@ -73,11 +73,15 @@ public class Curso {
      * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago
      * @return Estudiante con el número de indicación indicado o null
      */
-    public Optional<Estudiante> obtenerEstudiante(String numeroIdenficacion) {
-        Predicate<Estudiante> condicion = estudiante -> estudiante.getNumeroIdentificacion().equals(numeroIdenficacion);
-
-        return estudiantes.stream().filter(condicion).findAny();
+    public Optional<Estudiante> obtenerEstudiante(String numeroIdentificacion) {
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+                return Optional.of(estudiante);
+            }
+        }
+        return Optional.empty();
     }
+    
 
     /**
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
@@ -109,10 +113,12 @@ public class Curso {
      *         en el curso descendente por edad.
      */
     public Collection<Estudiante> obtenerListadoEdadDescendente() {
-        var comparador = Comparator.comparing(Estudiante::getEdad).reversed();
-        var estudiantesOrdenados = estudiantes.stream().sorted(comparador).toList();
+        List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
+        Comparator<Estudiante> comparador = Comparator.comparing(Estudiante::getEdad).reversed();
+        estudiantesOrdenados.sort(comparador);
         return Collections.unmodifiableCollection(estudiantesOrdenados);
     }
+    
 
     /**
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
@@ -139,7 +145,7 @@ public class Curso {
     }
 
     /**
-     * Método para obtener una nota parcial dado el nombre de la nota parcial --> Modificado por : Santiago
+     * Método para obtener una nota parcial dado el nombre de la nota parcial --> Modificado por : Santiago--
      * @param nombreNotaParcial nombre de la nota parcial a buscar
      * @return nota parcial encontrada o un excepción de no entrada.
      */
@@ -178,12 +184,19 @@ public class Curso {
      * @return colección de los estudiantes que perdieron en orden alfabético.
      */
     public Collection<Estudiante> obtenerListadoAlfabeticoPerdieron() {
-        var comparador = Comparator.comparing(Estudiante::getNombres);
-        return estudiantes.stream()
-                .filter(estudiante -> estudiante.getDefinitiva() < App.MINIMA_NOTA)
-                .sorted(comparador)
-                .toList();
+        List<Estudiante> estudiantesPerdieron = new ArrayList<>();
+        Comparator<Estudiante> comparador = Comparator.comparing(Estudiante::getNombres);
+        
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getDefinitiva() < App.MINIMA_NOTA) {
+                estudiantesPerdieron.add(estudiante);
+            }
+        }
+        
+        estudiantesPerdieron.sort(comparador);
+        return estudiantesPerdieron;
     }
+    
 
     /**
      * Método para validar que la suma de los porcentajes de las notas parciales esa 1.0 (100%) --> Modificado por : Sebastian
