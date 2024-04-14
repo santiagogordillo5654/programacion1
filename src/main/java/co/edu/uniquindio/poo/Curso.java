@@ -46,9 +46,9 @@ public class Curso {
      * 
      * @param estudiante Estudiante que se desea agregar
      */
-    public void agregarEstudiante(Estudiante estudiante) {
-        assert validarNumeroIdentificacionExiste(estudiante.getNumeroIdentificacion()) == false
-                : "El número de identificación ya existe.";
+    public void agregarEstudianteIterativo(Estudiante estudiante) {
+       
+        assert !validarNumeroIdentificacionExiste(estudiante.getNumeroIdentificacion()) : "El número de identificación ya existe.";
         estudiantes.add(estudiante);
     }
 
@@ -84,8 +84,9 @@ public class Curso {
      * 
      * @return colección NO modificable de los estudiantes del curso
      */
-    public Collection<Estudiante> getEstudiantes() {
-        return Collections.unmodifiableCollection(estudiantes);
+    public Collection<Estudiante> getEstudiantesIterativo() {
+        List<Estudiante> copiaEstudiantes = new ArrayList<>(estudiantes);
+        return copiaEstudiantes;
     }
 
     /**
@@ -121,10 +122,16 @@ public class Curso {
      * @return la colección NO modificable de los estudiantes del curso que
      *         son menores de edad.
      */
-    public Collection<Estudiante> obtenerListadoMenoresEdad() {
-        return estudiantes.stream()
-                .filter(estudiante -> estudiante.getEdad() < 18)
-                .toList();
+    public Collection<Estudiante> obtenerListadoMenoresEdadIterativo() {
+        List<Estudiante> listadoMenoresEdad = new ArrayList<>();
+    
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getEdad() < 18) {
+                listadoMenoresEdad.add(estudiante);
+            }
+        }
+    
+        return listadoMenoresEdad;
     }
 
     /**
@@ -155,12 +162,17 @@ public class Curso {
      * Método que obtiene la colección de los estudiantes con mayor nota. --> Modificado por : Sebastian
      * @return colección de los estudiantes con la mayor nota.
      */
-    public Collection<Estudiante> obtenerListadoMayorNota() {
+    public Collection<Estudiante> obtenerListadoMayorNotaIterativo() {
         double mayorNota = obtenerMayorNota();
-
-        return estudiantes.stream()
-                .filter(estudiante -> mayorNota - estudiante.getDefinitiva() <= App.PRECISION)
-                .toList();
+        List<Estudiante> listadoMayorNota = new ArrayList<>();
+    
+        for (Estudiante estudiante : estudiantes) {
+            if (mayorNota - estudiante.getDefinitiva() <= App.PRECISION) {
+                listadoMayorNota.add(estudiante);
+            }
+        }
+    
+        return listadoMayorNota;
     }
 
     /**
@@ -190,9 +202,12 @@ public class Curso {
      * @return verdadero si la suma de los porcentajes es 1.0 (100%) o tan cercano como la precisión indicada.
      */
     public boolean validarPorcentajes() {
-        double pesoNotas = notasParciales.stream()
-                .mapToDouble(n -> n.porcentaje()).sum();
+        double pesoNotas = 0.0;
+        for (NotaParcial nota : notasParciales) {
+            pesoNotas += nota.porcentaje();
+        }
         return (1.0 - pesoNotas) <= App.PRECISION;
     }
+    
 
 }
