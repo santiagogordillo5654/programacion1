@@ -4,7 +4,7 @@ Descripciín basisca de su Proyecto de POO ...
 
 # Autores
 
-- Autor 1
+- cerdos
 - Autor 2
 
 # Herramientas
