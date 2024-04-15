@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * Clase para manejar la información de un curso
+ * Clase para manejar la información de un curso.
  * @author Área de programación UQ
  * @since 2024-01
  * 
