@@ -1,14 +1,13 @@
 # problema02
 
-Descripciín basisca de su Proyecto de POO ...
+Descripcion basisca de su Proyecto de POO ...
 
 # Autores
 
 - Autor 1 Santiago Gordillo
 - Autor 2 Yefry Fajardo
 - Autor 3 Sebastian Roman
-- cerdos
-- Autor 2
+
 
 # Herramientas
 
