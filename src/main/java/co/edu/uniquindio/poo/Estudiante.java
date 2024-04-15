@@ -3,7 +3,6 @@ package co.edu.uniquindio.poo;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -22,7 +21,7 @@ public class Estudiante {
     private final String correo;
     private final String telefono;
     private final int edad;
-    private final Collection<NotaObtenida> notasObtenidas;
+    private final Collection<Asistencia> asistencias;
 
     /**
      * Método constructor de la clase Estudiante
@@ -51,7 +50,7 @@ public class Estudiante {
         this.telefono = telefono;
         this.edad = edad;
 
-        this.notasObtenidas = new LinkedList<>();
+        this.asistencias = new LinkedList<>();
     }
 
     /**
@@ -91,7 +90,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para obtener el teléfono del estudiante
+     * Método para obtener el teléfono del estudiante.
      * 
      * @return teléfono del estudiante
      */
@@ -109,21 +108,32 @@ public class Estudiante {
     }
 
     /**
+     * Método para agregar una asistencia a un estudiante.
+     * TODO evitar agregar más de una vez una misma asistencia.
      * Método para adicionar una nota obtenida al estudiante, Modificado por --> Sebastian
      * 
-     * @param notaObtenida nota obtenida por el estudiante
+     * @param asistencia asistencia del estudiante
      */
-    public void adicionarNotaObtenida(NotaObtenida notaObtenida) {
-        verificarExistenciaNotaObtenida(notaObtenida);
-        notasObtenidas.add(notaObtenida);
+    public void agregarAsistencia(Asistencia asistencia) {
+        assert asistencia != null : "Error la asistencia no puede nulo";
+
+        asistencias.add(asistencia);
     }
 
     /**
+     * Método para obtener la colección no modifiable de las asistencias.
      * Método de apoyo (privado) para verificar si existe o no la nota obtenida que, Modificado por --> Santiago
      * se desea adicionar
      * 
-     * @param notaObtenida nota obtenida que se quiere verificar que NO exista.
+     * @return colección no modificable de las asistencias.
      */
+    public Collection<Asistencia> getAsistenciasImperativo() {
+        List<Asistencia> copiaAsistencias = new ArrayList<>(asistencias);
+        return copiaAsistencias;
+    }
+    
+
+    /**
     private void verificarExistenciaNotaObtenida(NotaObtenida notaObtenida) {
         String nombreNota = notaObtenida.getNotaParcial().nombre();
         for (NotaObtenida nota : notasObtenidas) {
@@ -136,9 +146,20 @@ public class Estudiante {
     /**
      * Método para obtener la nota obtenida dado el nombre de la nota parcial, Modificado por --> Yefry
      * 
-     * @param nombreNotaParcial nombre de la nota parcial que se desea buscar.
-     * @return la nota obtenida asociada a la nota parcial
+     * @param claseCurso
+     * @return
      */
+    public boolean asistioClase(ClaseCurso claseCurso) {
+        for (Asistencia asistencia : asistencias) {
+            if (asistencia.claseCurso().fechaClase().isEqual(claseCurso.fechaClase()) 
+                    && asistencia.tipoAsistencia() == TipoAsistencia.PRESENTE) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+}
     
 
     public NotaObtenida getNotaObtenida(String nombreNotaParcial) {

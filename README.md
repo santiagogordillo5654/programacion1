@@ -1,14 +1,13 @@
-# problema02
+# demo
 
-Descripciín basisca de su Proyecto de POO ...
+Descripcion basisca de su Proyecto de POO ...
 
 # Autores
 
-- Autor 1 Santiago Gordillo
-- Autor 2 Yefry Fajardo
-- Autor 3 Sebastian Roman
-- cerdos
-- Autor 2
+- Autor 1 Sebastian Roman Sanchez
+- Autor 2 Santiago gordillo Molina
+- Autor 3 Yefry Fajardo 
+
 
 # Herramientas
 
@@ -40,5 +39,5 @@ Para generar el jar puede usar el comando:
 y para ejecutar el jar
 
 ```shell
- java -jar target/problema02-1.0.jar
+ java -jar target/demo-1.0.jar
 ```

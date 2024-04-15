@@ -1,24 +1,24 @@
-
 package co.edu.uniquindio.poo;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * Clase para manejar la información de un curso
+ * Registro que agrupa los datos de un Curso.
+ * 
  * @author Área de programación UQ
  * @since 2024-01
  * 
- * Licencia GNU/GPL V3.0 (https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE) 
+ *        Licencia GNU/GPL V3.0
+ *        (https://raw.githubusercontent.com/grid-uq/poo/main/LICENSE)
  */
+
 public class Curso {
     private final String nombre;
     private final Collection<Estudiante> estudiantes;
-    private final Collection<NotaParcial> notasParciales;
+    private final Collection<ClaseCurso> clases;
 
     /**
      * Método constructor de la clase Curso --> Modificado por : Yefry
@@ -28,6 +28,14 @@ public class Curso {
     
 
     public Curso(String nombre) {
+        if (nombre == null) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo");
+        }
+        this.nombre = nombre;
+        estudiantes = new LinkedList<>();
+        clases = new LinkedList<>();
+    }
+    
     while (nombre == null) {
         System.out.println("El nombre no puede ser nulo. Introduce un nombre válido:");
         // Aquí puedes usar alguna entrada de usuario para asignar un valor a 'nombre'
@@ -56,12 +64,42 @@ public class Curso {
      * 
      * @param estudiante Estudiante que se desea agregar
      */
+    public void agregarEstudiante(Estudiante estudiante) {
+        for (Estudiante e : estudiantes) {
+            if (e.getNumeroIdentificacion().equals(estudiante.getNumeroIdentificacion())) {
+                throw new IllegalArgumentException("El número de identificación ya existe.");
+            }
+        }
     public void agregarEstudianteIterativo(Estudiante estudiante) {
        
         assert !validarNumeroIdentificacionExiste(estudiante.getNumeroIdentificacion()) : "El número de identificación ya existe.";
         estudiantes.add(estudiante);
     }
-
+    
+    /**
+     * Método para buscar un estudiante dado el número de indicación
+     * 
+     * @param numeroIdenficacion Número de identificación del estudiante a buscar
+     * @return Estudiante con el número de indicación indicado o null
+     */
+    public Estudiante getEstudiante(String numeroIdentificacion) {
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * 
+     * @return la colección NO modificable de los estudiantes del curso
+     */
+    public Collection<Estudiante> getEstudiantes() {
+        return new ArrayList<>(estudiantes);
+    }
+    
     /**
      * Método privado para determinar si ya existe un estudiante registro en el --> Modificado por : Yefry
      * mismo número de identificación
@@ -71,6 +109,14 @@ public class Curso {
      *         registrado.
      */
     private boolean validarNumeroIdentificacionExiste(String numeroIdentificacion) {
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     for (Estudiante estudiante : estudiantes) {
         if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
             return true; // Se encontró un estudiante con el número de identificación dado
@@ -81,8 +127,15 @@ public class Curso {
 
 
     /**
-     * Método para buscar un estudiante dado el número de indicación
+     * Método para programar (agregar) una clase a un curso.
+     * TODO evitar agregar más de una vez una misma clase.
      * 
+     * @param claseCurso claseCurso que se desea programar
+     */
+    public void programarClase(ClaseCurso claseCurso) {
+        clases.add(claseCurso);
+    }
+    
      * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago
      * @return Estudiante con el número de indicación indicado o null
      */
@@ -99,20 +152,36 @@ public class Curso {
     /**
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
      * 
-     * @return colección NO modificable de los estudiantes del curso
+     * @return la colección NO modificable de las clases del curso
      */
+    public Collection<ClaseCurso> getClases() {
+        return new ArrayList<>(clases);
     public Collection<Estudiante> getEstudiantesIterativo() {
         List<Estudiante> copiaEstudiantes = new ArrayList<>(estudiantes);
         return copiaEstudiantes;
     }
-
+    
     /**
+     * Método que obtiene la colección de estudiantes que asistieron a una clase
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Yefry
      * en orden alfabético
      * 
-     * @return colección NO modificable de los estudiantes del curso en
-     *         orden alfabético
+     * @param claseCurso la clase de interés
+     * @return colección de los estudiantes que asistieron a una clase interés
      */
+    public Collection<Estudiante> getAsistentes(ClaseCurso claseCurso) {
+        List<Estudiante> asistentes = new ArrayList<>();
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.asistioClase(claseCurso)) {
+                asistentes.add(estudiante);
+            }
+        }
+        return asistentes;
+    }
+    
+    /**
+     * Método que obtiene la colección de estudiantes que estaban ausentes a una
+     * clase
     public Collection<Estudiante> obtenerListadoAlfabetico() {
     List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
     Collections.sort(estudiantesOrdenados, Comparator.comparing(Estudiante::getNombres));
@@ -125,9 +194,30 @@ public class Curso {
      * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Santiago
      * en orden descendente de la edad
      * 
-     * @return la colección NO modificable de los estudiantes del curso registrados
-     *         en el curso descendente por edad.
+     * @param claseCurso la clase de interés
+     * @return colección de los estudiantes que estuvieron ausentes a una clase
+     *         interés
      */
+    public Collection<Estudiante> getAusentes(ClaseCurso claseCurso) {
+        List<Estudiante> ausentes = new ArrayList<>();
+        for (Estudiante estudiante : estudiantes) {
+            if (!estudiante.asistioClase(claseCurso)) {
+                ausentes.add(estudiante);
+            }
+        }
+        return ausentes;
+    }
+    
+    public double calcularPorcentajeAsistencia(ClaseCurso claseCurso) {
+        int cantidadEstudiantes = estudiantes.size();
+        int cantidadAsistentes = 0;
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.asistioClase(claseCurso)) {
+                cantidadAsistentes++;
+            }
+        }
+        return (double) cantidadAsistentes / cantidadEstudiantes;
+    }
     public Collection<Estudiante> obtenerListadoEdadDescendente() {
         List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
         Comparator<Estudiante> comparador = Comparator.comparing(Estudiante::getEdad).reversed();
@@ -251,3 +341,4 @@ public class Curso {
     
 
 }
+    
