@@ -21,10 +21,12 @@ public class Curso {
     private final Collection<ClaseCurso> clases;
 
     /**
-     * Método constructor de la clase Curso
+     * Método constructor de la clase Curso --> Modificado por : Yefry
      * 
      * @param nombre Nombre del curso
      */
+    
+
     public Curso(String nombre) {
         if (nombre == null) {
             throw new IllegalArgumentException("El nombre no puede ser nulo");
@@ -34,18 +36,31 @@ public class Curso {
         clases = new LinkedList<>();
     }
     
+    while (nombre == null) {
+        System.out.println("El nombre no puede ser nulo. Introduce un nombre válido:");
+        // Aquí puedes usar alguna entrada de usuario para asignar un valor a 'nombre'
+    }
+    this.nombre = nombre;
+    estudiantes = new LinkedList<>();
+    notasParciales = new LinkedList<>();
+}
+
+
+
+
+
 
     /**
-     * Método para obtener el nombre del curso
+     * Método para obtener el nombre del curso --> Modificado por : Santiago
      * 
      * @return Nombre del curso
      */
     public String getNombre() {
         return nombre;
     }
-
+    
     /**
-     * Método para agregar a un estudiante al curso
+     * Método para agregar a un estudiante al curso --> Modificado por : Sebastian
      * 
      * @param estudiante Estudiante que se desea agregar
      */
@@ -55,6 +70,9 @@ public class Curso {
                 throw new IllegalArgumentException("El número de identificación ya existe.");
             }
         }
+    public void agregarEstudianteIterativo(Estudiante estudiante) {
+       
+        assert !validarNumeroIdentificacionExiste(estudiante.getNumeroIdentificacion()) : "El número de identificación ya existe.";
         estudiantes.add(estudiante);
     }
     
@@ -83,7 +101,7 @@ public class Curso {
     }
     
     /**
-     * Método privado para determinar si ya existe un estudiante registro en el
+     * Método privado para determinar si ya existe un estudiante registro en el --> Modificado por : Yefry
      * mismo número de identificación
      * 
      * @param numeroIdentificacion Número de identificación a buscar
@@ -99,6 +117,15 @@ public class Curso {
         return false;
     }
     
+    for (Estudiante estudiante : estudiantes) {
+        if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+            return true; // Se encontró un estudiante con el número de identificación dado
+        }
+    }
+    return false; // No se encontró ningún estudiante con el número de identificación dado
+}
+
+
     /**
      * Método para programar (agregar) una clase a un curso.
      * TODO evitar agregar más de una vez una misma clase.
@@ -109,17 +136,35 @@ public class Curso {
         clases.add(claseCurso);
     }
     
+     * @param numeroIdenficacion Número de identificación del estudiante a buscar --> Modificado por : Santiago
+     * @return Estudiante con el número de indicación indicado o null
+     */
+    public Optional<Estudiante> obtenerEstudiante(String numeroIdentificacion) {
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getNumeroIdentificacion().equals(numeroIdentificacion)) {
+                return Optional.of(estudiante);
+            }
+        }
+        return Optional.empty();
+    }
+    
+
     /**
-     * Método para obtener la colección NO modificable de los estudiantes del curso
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
      * 
      * @return la colección NO modificable de las clases del curso
      */
     public Collection<ClaseCurso> getClases() {
         return new ArrayList<>(clases);
+    public Collection<Estudiante> getEstudiantesIterativo() {
+        List<Estudiante> copiaEstudiantes = new ArrayList<>(estudiantes);
+        return copiaEstudiantes;
     }
     
     /**
      * Método que obtiene la colección de estudiantes que asistieron a una clase
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Yefry
+     * en orden alfabético
      * 
      * @param claseCurso la clase de interés
      * @return colección de los estudiantes que asistieron a una clase interés
@@ -137,6 +182,17 @@ public class Curso {
     /**
      * Método que obtiene la colección de estudiantes que estaban ausentes a una
      * clase
+    public Collection<Estudiante> obtenerListadoAlfabetico() {
+    List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
+    Collections.sort(estudiantesOrdenados, Comparator.comparing(Estudiante::getNombres));
+        return Collections.unmodifiableCollection(estudiantesOrdenados);
+    }
+
+
+
+    /**
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Santiago
+     * en orden descendente de la edad
      * 
      * @param claseCurso la clase de interés
      * @return colección de los estudiantes que estuvieron ausentes a una clase
@@ -162,5 +218,127 @@ public class Curso {
         }
         return (double) cantidadAsistentes / cantidadEstudiantes;
     }
+    public Collection<Estudiante> obtenerListadoEdadDescendente() {
+        List<Estudiante> estudiantesOrdenados = new ArrayList<>(estudiantes);
+        Comparator<Estudiante> comparador = Comparator.comparing(Estudiante::getEdad).reversed();
+        estudiantesOrdenados.sort(comparador);
+        return Collections.unmodifiableCollection(estudiantesOrdenados);
+    }
+    
+
+    /**
+     * Método para obtener la colección NO modificable de los estudiantes del curso --> Modificado por : Sebastian
+     * que son menores de edad
+     * 
+     * @return la colección NO modificable de los estudiantes del curso que
+     *         son menores de edad.
+     */
+    public Collection<Estudiante> obtenerListadoMenoresEdadIterativo() {
+        List<Estudiante> listadoMenoresEdad = new ArrayList<>();
+    
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getEdad() < 18) {
+                listadoMenoresEdad.add(estudiante);
+            }
+        }
+    
+        return listadoMenoresEdad;
+    }
+
+    /**
+     * Método para adicionar una nota parcial
+     * TODO: Se puede validar que la suma de los porcentajes no sobrepase en ningún --> Modificado por : Yefry
+     * momento 1.0 (100%)
+     * 
+     * @param notaParcial nota parcial que se desea adicionar al curso
+     */
+    public void adicionarNotaParcial(NotaParcial notaParcial) {
+        notasParciales.add(notaParcial);
+    }
+
+    /**
+     * Método para obtener una nota parcial dado el nombre de la nota parcial --> Modificado por : Santiago--
+     * @param nombreNotaParcial nombre de la nota parcial a buscar
+     * @return nota parcial encontrada o un excepción de no entrada.
+     */
+    public NotaParcial getNotaParcial(String nombreNotaParcial) {
+        Predicate<NotaParcial> nombreIgual = j -> j.nombre().equals(nombreNotaParcial);
+        var posibleNotaParcial = notasParciales.stream().filter(nombreIgual).findAny();
+        assert posibleNotaParcial.isPresent();
+
+        return posibleNotaParcial.get();
+    }
+
+    /**
+     * Método que obtiene la colección de los estudiantes con mayor nota. --> Modificado por : Sebastian
+     * @return colección de los estudiantes con la mayor nota.
+     */
+    public Collection<Estudiante> obtenerListadoMayorNotaIterativo() {
+        double mayorNota = obtenerMayorNota();
+        List<Estudiante> listadoMayorNota = new ArrayList<>();
+    
+        for (Estudiante estudiante : estudiantes) {
+            if (mayorNota - estudiante.getDefinitiva() <= App.PRECISION) {
+                listadoMayorNota.add(estudiante);
+            }
+        }
+    
+        return listadoMayorNota;
+    }
+
+    /**
+     * Método de apoyo (privado) que determinar el valor de la mayor nota definitiva --> Modificado por : Yefry
+     * @return mayor nota definitiva de los estudiantes del curso.
+     */
+    
+
+    private double obtenerMayorNota() {
+    double mayorNota = Double.MIN_VALUE; // Valor inicial muy pequeño
+
+    for (Estudiante estudiante : estudiantes) {
+        double definitiva = estudiante.getDefinitiva();
+        if (definitiva > mayorNota) {
+            mayorNota = definitiva;
+        }
+    }
+
+    return mayorNota;
+}
+
+
+
+
+    /**
+     * Método para obtener la colección de los estudiantes que perdieron en orden alfabético. --> Modificado por : Santiago
+     * @return colección de los estudiantes que perdieron en orden alfabético.
+     */
+    public Collection<Estudiante> obtenerListadoAlfabeticoPerdieron() {
+        List<Estudiante> estudiantesPerdieron = new ArrayList<>();
+        Comparator<Estudiante> comparador = Comparator.comparing(Estudiante::getNombres);
+        
+        for (Estudiante estudiante : estudiantes) {
+            if (estudiante.getDefinitiva() < App.MINIMA_NOTA) {
+                estudiantesPerdieron.add(estudiante);
+            }
+        }
+        
+        estudiantesPerdieron.sort(comparador);
+        return estudiantesPerdieron;
+    }
+    
+
+    /**
+     * Método para validar que la suma de los porcentajes de las notas parciales esa 1.0 (100%) --> Modificado por : Sebastian
+     * @return verdadero si la suma de los porcentajes es 1.0 (100%) o tan cercano como la precisión indicada.
+     */
+    public boolean validarPorcentajes() {
+        double pesoNotas = 0.0;
+        for (NotaParcial nota : notasParciales) {
+            pesoNotas += nota.porcentaje();
+        }
+        return (1.0 - pesoNotas) <= App.PRECISION;
+    }
+    
+
 }
     
