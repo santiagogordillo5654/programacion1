@@ -90,7 +90,7 @@ public class Estudiante {
     }
 
     /**
-     * Método para obtener el teléfono del estudiante
+     * Método para obtener el teléfono del estudiante.
      * 
      * @return teléfono del estudiante
      */

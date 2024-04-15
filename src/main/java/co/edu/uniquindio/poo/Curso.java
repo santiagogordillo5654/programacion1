@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.function.Predicate;
 
 /**
- * Registro que agrupa los datos de un Curso
+ * Registro que agrupa los datos de un Curso.
  * 
  * @author Área de programación UQ
  * @since 2024-01
