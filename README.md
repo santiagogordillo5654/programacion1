@@ -1,6 +1,6 @@
-# problema02
+# problema03
 
-Descripcion basisca de su Proyecto de POO ...
+Descripcion basica de su Proyecto de POO ...
 
 # Autores
 
