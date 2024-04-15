@@ -124,9 +124,11 @@ public class Estudiante {
      * 
      * @return colección no modificable de las asistencias.
      */
-    public Collection<Asistencia> getAsistencias() {
-        return Collections.unmodifiableCollection(asistencias);
+    public Collection<Asistencia> getAsistenciasImperativo() {
+        List<Asistencia> copiaAsistencias = new ArrayList<>(asistencias);
+        return copiaAsistencias;
     }
+    
 
     /**
      * 
@@ -134,9 +136,13 @@ public class Estudiante {
      * @return
      */
     public boolean asistioClase(ClaseCurso claseCurso) {
-        Predicate<Asistencia> fechaIgual = j -> j.claseCurso().fechaClase().isEqual(claseCurso.fechaClase());
-        Predicate<Asistencia> asistioPresente = j -> j.tipoAsistencia() == TipoAsistencia.PRESENTE;
-        var asistencia = asistencias.stream().filter(fechaIgual.and(asistioPresente)).findAny();
-        return asistencia.isPresent();
+        for (Asistencia asistencia : asistencias) {
+            if (asistencia.claseCurso().fechaClase().isEqual(claseCurso.fechaClase()) 
+                    && asistencia.tipoAsistencia() == TipoAsistencia.PRESENTE) {
+                return true;
+            }
+        }
+        return false;
     }
+    
 }
